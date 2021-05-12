@@ -25,7 +25,7 @@ type SessionItem struct {
 	ID        string    `gorm:"column:id;size:255;primary_key;"`
 	Value     string    `gorm:"column:value;size:2048;"`
 	CreatedAt time.Time `gorm:"column:created_at;"`
-	ExpiredAt time.Time `gorm:"column:expired_at;"`
+	ExpiredAt time.Time `gorm:"column:expired_at;index;"`
 }
 
 // Config configuration parameter
@@ -97,7 +97,6 @@ func NewStoreWithDB(db *gorm.DB, tableName string, gcInterval int) (session.Mana
 		if err != nil {
 			return nil, err
 		}
-		store.db.AddIndex("idx_expired_at", "expired_at")
 	}
 
 	interval := 600
